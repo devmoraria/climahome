@@ -56,7 +56,6 @@ if (cookiePrefsLink) {
 
 const heroImage = document.querySelector('.hero-media img');
 const heroBadge = document.querySelector('.hero-badge');
-const heroDots = [...document.querySelectorAll('.hero-dot')];
 const heroPrev = document.querySelector('.hero-prev');
 const heroNext = document.querySelector('.hero-next');
 heroImage.src = assets.hero[0].src;
@@ -66,7 +65,6 @@ let heroIndex = 0;
 function showHero(index) {
   heroIndex = index % assets.hero.length;
   heroBadge.href = assets.hero[heroIndex].target;
-  heroDots.forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === heroIndex));
   heroImage.style.opacity = '0';
   setTimeout(() => {
     heroImage.src = assets.hero[heroIndex].src;
@@ -96,7 +94,6 @@ heroMedia.addEventListener('focusout', startHeroAutoplay);
 
 heroPrev.addEventListener('click', () => { showHero((heroIndex - 1 + assets.hero.length) % assets.hero.length); stopHeroAutoplay(); startHeroAutoplay(); });
 heroNext.addEventListener('click', () => { showHero(heroIndex + 1); stopHeroAutoplay(); startHeroAutoplay(); });
-heroDots.forEach((dot) => dot.addEventListener('click', () => { showHero(Number(dot.dataset.slide)); stopHeroAutoplay(); startHeroAutoplay(); }));
 heroBadge.addEventListener('click', () => {
   const targetCard = document.querySelector(assets.hero[heroIndex].target);
   if (!targetCard) return;
@@ -120,11 +117,36 @@ document.querySelectorAll('.faq-item>button').forEach((button) => {
   });
 });
 
-function applyGalleryFilter(filter) {
+function applyGalleryFilter(filter, animate = true) {
+  const gallery = document.querySelector('.gallery');
+  gallery.classList.toggle('is-all', filter === 'all');
+  let largeSlot = 0;
+
   document.querySelectorAll('.gallery figure').forEach((figure) => {
-    figure.hidden = filter === 'all'
-      ? figure.dataset.featured !== 'true'
-      : figure.dataset.category !== filter;
+    const shouldShow = filter === 'all'
+      ? figure.dataset.featured === 'true'
+      : figure.dataset.category === filter;
+
+    // No "Todos", a 1ª foto de cada trio (0, 3, 6...) vira destaque grande
+    figure.classList.toggle('is-large', filter === 'all' && shouldShow && largeSlot % 3 === 0);
+    if (shouldShow) largeSlot++;
+
+    if (shouldShow && figure.hidden) {
+      figure.hidden = false;
+      if (!animate) return;
+      figure.classList.add('is-hiding');
+      requestAnimationFrame(() => requestAnimationFrame(() => figure.classList.remove('is-hiding')));
+    } else if (!shouldShow && !figure.hidden) {
+      if (!animate) { figure.hidden = true; return; }
+      figure.classList.add('is-hiding');
+      figure.addEventListener('transitionend', function onFadeOut(event) {
+        if (event.propertyName !== 'opacity') return;
+        figure.hidden = true;
+        figure.removeEventListener('transitionend', onFadeOut);
+      });
+    } else if (shouldShow) {
+      figure.classList.remove('is-hiding');
+    }
   });
 }
 
@@ -140,7 +162,7 @@ document.querySelectorAll('.filter-chip').forEach((chip) => {
   });
 });
 
-applyGalleryFilter(document.querySelector('.filter-chip.active').dataset.filter);
+applyGalleryFilter(document.querySelector('.filter-chip.active').dataset.filter, false);
 
 const lightbox = document.querySelector('.lightbox');
 const lightboxImage = lightbox.querySelector('img');
@@ -208,14 +230,14 @@ if (contactForm) {
     }
 
     const linhas = [
-      'Olá, ClimaHome! 👋',
+      'Olá, ClimaHome!',
       '',
       `Meu nome é *${nome}* e gostaria de solicitar um orçamento.`,
       '',
-      `🔧 *Serviço:* ${servico}`,
-      `📍 *Local:* ${local}`,
+      `*Serviço:* ${servico}`,
+      `*Local:* ${local}`,
     ];
-    if (descricao) linhas.push(`📝 *Detalhes:* ${descricao}`);
+    if (descricao) linhas.push(`*Detalhes:* ${descricao}`);
     linhas.push('', 'Aguardo o retorno, obrigado(a)!');
 
     const mensagem = encodeURIComponent(linhas.join('\n'));
