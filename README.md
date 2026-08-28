@@ -2,20 +2,29 @@
 
 Landing page institucional desenvolvida para a **ClimaHome Sustentável**, empresa de instalação e manutenção residencial de elétrica, energia solar, hidráulica e climatização em São Paulo/SP.
 
+🔗 **No ar:** [climahome.com.br](https://climahome.com.br)
+
 O objetivo do site é apresentar os serviços da empresa, exibir um portfólio de trabalhos realizados e direcionar o visitante para orçamento via WhatsApp, com o menor atrito possível entre o interesse e o contato.
+
+## Preview
+
+![Preview do site ClimaHome Sustentável em desktop e mobile](./docs/preview.png)
 
 ## Sobre o projeto
 
-Site estático, construído em HTML, CSS e JavaScript puros, sem frameworks ou processo de build. Essa escolha foi feita pela natureza do projeto: uma página institucional de divulgação, sem necessidade de backend, autenticação ou banco de dados — o que também reduz a superfície de ataque e simplifica hospedagem e manutenção.
+Site estático, construído em HTML, CSS e JavaScript puros, sem frameworks ou processo de build. Essa escolha foi feita pela natureza do projeto: uma página institucional de divulgação, sem necessidade de backend, autenticação ou banco de dados. Isso também reduz a superfície de ataque e simplifica hospedagem e manutenção.
+
+Hospedado na **Netlify**, com deploy automático a partir do branch `main` do repositório. DNS gerenciado pela própria Netlify.
 
 ## O que foi desenvolvido
 
-- **Página principal** com hero em carrossel, seção de serviços, portfólio filtrável por categoria com lightbox, seção institucional, perguntas frequentes e formulário de contato
+- **Página principal** com hero em tela cheia e carrossel de imagens, seção de serviços, portfólio filtrável por categoria com lightbox, seção institucional, perguntas frequentes e formulário de contato
 - **Formulário de contato sem backend**: monta a mensagem no próprio navegador e abre diretamente no WhatsApp, sem armazenar ou transmitir dados a nenhum servidor
 - **Banner de cookies com consentimento prévio (opt-in)** para o Google Analytics, em conformidade com a LGPD
 - **Página de política de privacidade** própria
-- **SEO técnico**: meta tags, Open Graph, dados estruturados (JSON-LD) para negócio local e FAQ, `sitemap.xml` e `robots.txt`
+- **SEO técnico**: meta tags, Open Graph, dados estruturados (JSON-LD) para negócio local e FAQ, `sitemap.xml` e `robots.txt`, verificado e indexado no Google Search Console
 - **Acessibilidade**: navegação por teclado, atributos ARIA e foco gerenciado nos componentes interativos (acordeões, lightbox, carrossel)
+- **Analytics**: Google Analytics 4 configurado, carregado somente mediante consentimento no banner de cookies
 
 ## Estrutura
 
@@ -27,6 +36,8 @@ Site estático, construído em HTML, CSS e JavaScript puros, sem frameworks ou p
 ├── script.js            # Interatividade (carrossel, filtros, lightbox, cookies, formulário)
 ├── sitemap.xml
 ├── robots.txt
+├── docs/
+│   └── preview.png       # Imagem usada neste README
 └── assets/               # Fotos, ícones e logos
 ```
 
@@ -37,12 +48,7 @@ Site estático, construído em HTML, CSS e JavaScript puros, sem frameworks ou p
 - JavaScript vanilla, sem dependências
 - Google Fonts (IBM Plex Sans, IBM Plex Mono, Space Grotesk)
 - Google Analytics (GA4), carregado somente mediante consentimento
-
-## Pendências para publicação
-
-- Inserir o ID real da propriedade do Google Analytics (atualmente com placeholder)
-- Confirmar e revisar as respostas do FAQ marcadas para validação com o cliente (área de cobertura, custo de visita técnica, emissão de nota fiscal, formas de pagamento, prazo de garantia)
-- Definir domínio final e atualizar as URLs absolutas do projeto (meta tags, dados estruturados, sitemap e robots.txt)
+- Deploy e DNS: Netlify
 
 ## Privacidade
 
