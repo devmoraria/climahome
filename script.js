@@ -7,7 +7,7 @@ const assets = {
   ],
 };
 
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // troque pelo ID real da propriedade
+const GA_MEASUREMENT_ID = 'G-2B94GC9QGL';
 
 function loadAnalytics() {
   if (window.gaLoaded) return;
